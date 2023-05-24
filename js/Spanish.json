@@ -1,0 +1,26 @@
+
+
+{
+	"sProcessing":     "Procesando...",
+	"sLengthMenu":     "Registros _MENU_",
+	"sZeroRecords":    "No se encontraron resultados",
+	"sEmptyTable":     "Ningún dato disponible en esta tabla",
+	"sInfo":           "Mostrando página _PAGE_ de _PAGES_",
+	"sInfoEmpty":      "No hay registros disponibles",
+	"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	"sInfoPostFix":    "",
+	"sSearch":         "<i class='fa fa-search' aria-hidden='true' style='float: right;margin: 10px 0px 0px 0px;font-size: 16px;'></i>",
+	"sUrl":            "",
+	"sInfoThousands":  ",",
+	"sLoadingRecords": "Cargando...",
+	"oPaginate": {
+		"sFirst":    "Primero",
+		"sLast":     "Último",
+		"sNext":     "Siguiente",
+		"sPrevious": "Anterior"
+	},
+	"oAria": {
+		"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+		"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	}
+}

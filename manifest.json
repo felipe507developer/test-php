@@ -1,0 +1,105 @@
+{
+	"name" : "Vitae PMC",
+	"short_name" : "Vitae PMC",
+    "icons":[
+        {
+            "src" : "icons/pwa/icons/72X72.png",
+            "type" : "image/png",
+            "sizes" :"72x72"
+        },
+        {
+            "src" : "icons/pwa/icons/96X96.png",
+            "type" : "image/png",
+            "sizes" :"96x96"
+        },{
+            "src" : "icons/pwa/icons/120X120.png",
+            "type" : "image/png",
+            "sizes" :"120x120"
+        },{
+            "src" : "icons/pwa/icons/128X128.png",
+            "type" : "image/png",
+            "sizes" :"128x128"
+        },{
+            "src" : "icons/pwa/icons/144X144.png",
+            "type" : "image/png",
+            "sizes" :"144x144"
+        },{
+            "src" : "icons/pwa/icons/152X152.png",
+            "type" : "image/png",
+            "sizes" :"152x152"
+        },{
+            "src" : "icons/pwa/icons/180X180.png",
+            "type" : "image/png",
+            "sizes" :"180x180"
+        },{
+            "src" : "icons/pwa/icons/192X192.png",
+            "type" : "image/png",
+            "sizes" :"192x192"
+        },{
+            "src" : "icons/pwa/icons/384X384.png",
+            "type" : "image/png",
+            "sizes" :"384x384"
+        },{
+            "src" : "icons/pwa/icons/512X512.png",
+            "type" : "image/png",
+            "sizes" :"512x512"
+        },{
+            "src" : "icons/pwa/icons/640X640.png",
+            "type" : "image/png",
+            "sizes" :"640x640"
+        },
+        {
+            "src" : "icons/pwa/maskable_icons/128x128.png",
+            "type" : "image/png",
+            "sizes" :"128x128",
+            "purpose": "any maskable"
+        },{
+            "src" : "icons/pwa/maskable_icons/48X48.png",
+            "type" : "image/png",
+            "sizes" :"48x48",
+            "purpose": "any maskable"
+        },{
+            "src" : "icons/pwa/maskable_icons/72X72.png",
+            "type" : "image/png",
+            "sizes" :"72x72",
+            "purpose": "any maskable"
+        },{
+            "src" : "icons/pwa/maskable_icons/96X96.png",
+            "type" : "image/png",
+            "sizes" :"96x96",
+            "purpose": "any maskable"
+        },{
+            "src" : "icons/pwa/maskable_icons/128x128.png",
+            "type" : "image/png",
+            "sizes" :"128x128",
+            "purpose": "any maskable"
+        },{
+            "src" : "icons/pwa/maskable_icons/192X192.png",
+            "type" : "image/png",
+            "sizes" :"192x192",
+            "purpose": "any maskable"
+        },{
+            "src" : "icons/pwa/maskable_icons/384X384.png",
+            "type" : "image/png",
+            "sizes" :"384x384",
+            "purpose": "any maskable"
+        },{
+            "src" : "icons/pwa/maskable_icons/512X512.png",
+            "type" : "image/png",
+            "sizes" :"512x512",
+            "purpose": "any maskable"
+        },{
+            "src" : "icons/pwa/maskable_icons/838X838.png",
+            "type" : "image/png",
+            "sizes" :"838x838",
+            "purpose": "any maskable"
+        }
+
+
+    ],
+    "start_url": "index.php",
+    "display": "standalone",
+    "background_color": "#29a372",
+    "theme_color": "#186099",
+    "description" : "PWA de NOC - vitae pruebas"
+}
