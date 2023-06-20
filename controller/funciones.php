@@ -66,4 +66,41 @@
         ';
     }
 
-?>
+    //SI SE ESTA EDITANDO O NO
+    function obtenerEstadoDelUsuario($id_paciente) {
+        // Realizar la conexión a la base de datos
+        global $mysqli;
+        
+        $query = "SELECT editando FROM pacientes WHERE id = '$id_paciente'";
+        $result = $mysqli->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $estadoEditando = $row['editando'];
+            return $estadoEditando;
+        } else {
+            echo "No se encontró el usuario con el ID: $id_paciente";
+            return false;
+        }
+        
+        // Cerrar la conexión a la base de datos
+        mysqli_close($mysqli);
+    }
+
+    function marcarUsuarioEditando($id_paciente, $estado) {
+        // Realizar la conexión a la base de datos
+       
+        global $mysqli;
+        
+        $id = $mysqli->real_escape_string($id_paciente);
+        // Construir y ejecutar la consulta SQL para actualizar la columna "editando"
+        $query = "UPDATE pacientes SET editando = ".$estado." WHERE id = '$id'";
+        
+        if ($mysqli->query($query)) {
+            return true;
+        } else {
+            return false;
+        }
+        // Cerrar la conexión a la base de datos
+        mysqli_close($mysqli);
+    }

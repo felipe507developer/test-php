@@ -1,6 +1,38 @@
 <?php
-	include_once("controller/funciones.php");
-	include_once("controller/conexion.php");
+session_start();
+if ($_SESSION) {
+
+    switch ($_SESSION['usuario']) {
+        case "administrador":
+            break;
+        case "supervisor":
+
+            break;
+        case "analista":
+            header("location: index.php");
+            break;
+        default:
+            header("location: index.php");
+            break;
+    }
+    
+} else {
+    header("location: index.php");
+}
+
+
+
+include_once("controller/funciones.php");
+include_once("controller/conexion.php");
+    $id_paciente = $_GET['id'];
+    
+    $estado = obtenerEstadoDelUsuario($id_paciente);
+    if($estado == 1){      
+      header("location: pacientes.php");
+    }else{
+        $estado = marcarUsuarioEditando($id_paciente, 1);
+    }
+   
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,31 +44,32 @@
     <title>Paciente editar</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
-	<link href="./vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
-	
-	<link href="./vendor/bootstrap-select/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
+
+    <link href="./vendor/bootstrap-select/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet">
-	<link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
-	<!-- Datatable -->
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+    <!-- Datatable -->
     <link href="./vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Ajustes -->
     <link href="./css/ajustes.css" rel="stylesheet">
 
     <style>
         .dataTables_wrapper .dataTables_paginate .paginate_button {
-            width:auto !important;
+            width: auto !important;
         }
     </style>
     <!-- Daterange picker -->
     <link href="js/daterangepicker-master/daterangepicker.css" rel="stylesheet">
 </head>
+
 <body>
     <!--*******
         ORVERLAY
     ********-->
     <div id="overlay">
-		<div id="text"><strong>Procesando...</strong></div>
+        <div id="text"><strong>Procesando...</strong></div>
     </div>
 
     <!--*******************
@@ -75,52 +108,52 @@
         <!--**********************************
             Configuración start
         ***********************************-->
-		<div class="config">
-        <div class="config-close"></div>
-				<div class="custom-tab-1">
-					<ul class="nav nav-tabs">
-						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#filtrosconfig">Configuración</a>
-						</li>
-					</ul>
-					<div class="card mb-sm-3 mb-md-0">
-						<div class="card-body p-0 dz-scroll" id="DZ_W_Filtros_Body">
-							<div class="form-config">
-								<form>
-									
-									<div class="form-row col-12">
-										
-										<div class="col-md-12 col-sm-12 col-xs-12">
-											<div class="form-group label-floating">
-												<label class="control-label">Organización</label>                                        
-												<select class="form-control" id="select-organizacion" style="width:100%">
-												</select>
-												<span class="material-input"></span>
-											</div>
-										</div>
-										<div class="col-md-12 col-sm-12 col-xs-12">
-											<div class="form-group label-floating">
-												<label class="control-label">Empresa</label>                                        
-												<select class="form-control" id="select-empresa" style="width:100%">
-												</select>
-												<span class="material-input"></span>
-											</div>
-										</div>
-									</div>	
-									<br>
-									<div class="card-footer" style="text-align:center">
-										<button type="button" class="btn btn-primary light" id="boton-aplicar-filtros-globales">Aplicar</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-		</div>
-		<!--**********************************
+        <div class="config">
+            <div class="config-close"></div>
+            <div class="custom-tab-1">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#filtrosconfig">Configuración</a>
+                    </li>
+                </ul>
+                <div class="card mb-sm-3 mb-md-0">
+                    <div class="card-body p-0 dz-scroll" id="DZ_W_Filtros_Body">
+                        <div class="form-config">
+                            <form>
+
+                                <div class="form-row col-12">
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Organización</label>
+                                            <select class="form-control" id="select-organizacion" style="width:100%">
+                                            </select>
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Empresa</label>
+                                            <select class="form-control" id="select-empresa" style="width:100%">
+                                            </select>
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="card-footer" style="text-align:center">
+                                    <button type="button" class="btn btn-primary light" id="boton-aplicar-filtros-globales">Aplicar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
             Configuración End
         ***********************************-->
-		<!--**********************************
+        <!--**********************************
             Header start
         ***********************************-->
         <div class="header" name="top">
@@ -128,54 +161,54 @@
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
-                            <a  href="#top">
-							<a href="#" class="btn btn-primary ir-arriba"><i class="las la-arrow-up"></i></a>
-                            <div class="dashboard_bar">
-                                Paciente editar
-
-                            </div>
-                          </a>  
+                            <a href="#top">
+                                <a href="#" class="btn btn-primary ir-arriba"><i class="las la-arrow-up"></i></a>
+                                <div class="dashboard_bar">
+                                    Paciente editar
+                                    - <?php echo $estado ." - ". $id_paciente; ?>
+                                </div>
+                            </a>
                         </div>
 
                         <ul class="navbar-nav header-right">
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link ai-icon" href="javascript:;" role="button" data-toggle="dropdown">
                                     <i class="fas fa-bell text-success"></i>
-									
+
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3 height380">
-										<ul class="timeline" id="incidentesnotific">
-										    
-										</ul>
-									</div>
-                                    <a href="#tabla_incidentes" class="all-notification ancla"  name="incidentesC">Ver todos los Incidentes <i class="ti-arrow-down"></i></a>
+                                        <ul class="timeline" id="incidentesnotific">
+
+                                        </ul>
+                                    </div>
+                                    <a href="#tabla_incidentes" class="all-notification ancla" name="incidentesC">Ver todos los Incidentes <i class="ti-arrow-down"></i></a>
                                 </div>
                             </li>
-							<li class="nav-item dropdown notification_dropdown" style="display: none;">
+                            <li class="nav-item dropdown notification_dropdown" style="display: none;">
                                 <a class="nav-link bell bell-link" href="javascript:;">
                                     <i class="fas fa-comments text-success"></i>
-									<!--<span class="badge light text-white bg-primary">5</span>-->
+                                    <!--<span class="badge light text-white bg-primary">5</span>-->
                                 </a>
-							</li>
-							<li class="nav-item dropdown notification_dropdown" style="display:none;">
+                            </li>
+                            <li class="nav-item dropdown notification_dropdown" style="display:none;">
                                 <a class="nav-link bell config-link" href="javascript:;">
                                     <i class="fas fa-cogs text-success"></i>
-									<!--<span class="badge light text-white bg-primary">5</span>-->
+                                    <!--<span class="badge light text-white bg-primary">5</span>-->
                                 </a>
-							</li>
-							<li class="nav-item dropdown header-profile"  id="regiones">
                             </li>
-							<li class="nav-item dropdown header-profile">
+                            <li class="nav-item dropdown header-profile" id="regiones">
+                            </li>
+                            <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:;" role="button" data-toggle="dropdown">
                                     <!--<img src="images/logo.png" width="20" alt=""/>-->
                                     <div class="round-header"><?php echo $inombre; ?></div>
-									<div class="header-info">
-										<span><?php echo $nombre; ?></span>
-									</div>
+                                    <div class="header-info">
+                                        <span><?php echo $nombre; ?></span>
+                                    </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-									<?php opciones_usuario(); ?>
+                                    <?php opciones_usuario(); ?>
 
                                 </div>
                             </li>
@@ -197,19 +230,19 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-		
-		<!--**********************************
+
+        <!--**********************************
             Content body start
         ***********************************-->
         <div class="content-body">
             <!-- row -->
-			<div class="container-fluid" style="display:padding-top: 0px !important">
-				<div class="form-head d-flex mb-3 mb-md-4 align-items-start">
-					<div class="mr-auto d-none d-lg-block" style="display: none !important">
-						<h3 class="text-black font-w600">Bienvenido a Vitae!</h3>
-						<p class="mb-0 fs-18">Tu aliado de salud en casa</p>
-					</div>
-					<!--
+            <div class="container-fluid" style="display:padding-top 0px !important">
+                <div class="form-head d-flex mb-3 mb-md-4 align-items-start">
+                    <div class="mr-auto d-none d-lg-block" style="display: none !important">
+                        <h3 class="text-black font-w600">Bienvenido a Vitae!</h3>
+                        <p class="mb-0 fs-18">Tu aliado de salud en casa</p>
+                    </div>
+                    <!--
 					<div class="input-group search-area ml-auto d-inline-flex">
 						<input type="text" class="form-control" placeholder="Buscar...">
 						<div class="input-group-append">
@@ -217,10 +250,10 @@
 						</div>
 					</div>
 					-->
-				</div>
-				
-				
-				<div class="row">
+                </div>
+
+
+                <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
@@ -228,28 +261,28 @@
                             </div>
                             <div class="card-body" id="div-paciente">
                                 <div class="form-row col-12">
-                                    <div class="col-md-3 col-xs-12 col-sm-3">		
+                                    <div class="col-md-3 col-xs-12 col-sm-3">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label" for=""><span style="color:red">* </span><span class="doc_identificacion">Cédula</span> <span class="cedula-vivcare"></span></label>
-                                            <input  type="text" class="form-control mandatorio" id="cedula">
+                                            <input type="text" class="form-control mandatorio" id="cedula">
                                             <span class="material-input"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-xs-12 col-sm-3">		
+                                    <div class="col-md-3 col-xs-12 col-sm-3">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label " for=""><span style="color:red">* </span>Nombre completo</label>
-                                            <input  type="text" class="form-control mandatorio solotexto" id="nombre">
+                                            <input type="text" class="form-control mandatorio solotexto" id="nombre">
                                             <span class="material-input"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-xs-12 col-sm-3">		
+                                    <div class="col-md-3 col-xs-12 col-sm-3">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label" for=""><span style="color:red">* </span>Fecha de nacimiento</label>
-                                            <input  type="text" class="form-control mandatorio" id="fecha-nacimiento">
+                                            <input type="text" class="form-control mandatorio" id="fecha-nacimiento">
                                             <span class="material-input"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-xs-12 col-sm-3">    
+                                    <div class="col-md-3 col-xs-12 col-sm-3">
                                         <label class="col-form-label"><span style="color:red">* </span>Sexo</label>
                                         <div class="basic-form">
                                             <form>
@@ -261,23 +294,38 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-xs-12 col-sm-3">		
+                                    <div class="col-md-3 col-xs-12 col-sm-3">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label" for=""><span style="color:red">* </span>Teléfono</label>
-                                            <input  type="text" class="form-control mandatorio solonumero" id="telefono">
+                                            <input type="text" class="form-control mandatorio solonumero" id="telefono">
                                             <span class="material-input"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 col-xs-12 col-sm-4">		
+                                    <div class="col-md-4 col-xs-12 col-sm-4">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label" for="">Correo</label>
-                                            <input  type="email" class="email form-control" id="correo">
+                                            <input type="email" class="email form-control" id="correo">
                                             <span class="material-input"></span>
                                         </div>
                                     </div>
-                                    
+                                    <div class="col-md-4 col-xs-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="tipo_sangre">Tipo de Sangre</label>
+                                            <select class="form-control" id="tipo_sangre" required>
+                                                <option value="">Selecciona una opción</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                                   
+
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -307,8 +355,8 @@
         <!--**********************************
         Footer end
         ***********************************-->
-            
-    </div>	
+
+    </div>
     <!--**********************************
         Main wrapper end
     ***********************************-->
@@ -319,18 +367,18 @@
         Scripts
     ***********************************-->
     <!-- Required vendors -->
-    <script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC037nleP4v84LrVNzb4a0fn33Ji37zC18&libraries=places">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC037nleP4v84LrVNzb4a0fn33Ji37zC18&libraries=places">
     </script>
     <script src="./vendor/global/global.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<script src="./vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="./vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <script src="./js/custom.min.js"></script>
-	<script src="./js/deznav-init.js"></script>
-	<script src="./vendor/owl-carousel/owl.carousel.js"></script>
-	<!-- Apex Chart -->
-	<script src="./vendor/apexchart/apexchart.js"></script>
-	<!-- Datatable -->
+    <script src="./js/deznav-init.js"></script>
+    <script src="./vendor/owl-carousel/owl.carousel.js"></script>
+    <!-- Apex Chart -->
+    <script src="./vendor/apexchart/apexchart.js"></script>
+    <!-- Datatable -->
     <script src="./vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="./js/plugins-init/datatables.init.js"></script>
     <!-- momment js is must -->
@@ -339,8 +387,9 @@
     <script src="js/daterangepicker-master/daterangepicker.js"></script>
     <?php linksFooter(); ?>
     <script src="./assets/js/sweetalert.min.js"></script>
-    <script src="https://kit.fontawesome.com/7f9e31f86a.js" crossorigin="anonymous"></script>	
-	<script src="./js/pacientes/paciente-editar.js" ></script>
+    <script src="https://kit.fontawesome.com/7f9e31f86a.js" crossorigin="anonymous"></script>
+    <script src="./js/pacientes/paciente-editar.js"></script>
 
 </body>
+
 </html>

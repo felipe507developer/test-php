@@ -3,6 +3,13 @@ const histoial = getParamsUrl('histoial');
 var cedula_actual ='';
 var option_paises = '';
 $.get("controller/pacientes/pacientes-back.php",{"oper":"get_paciente","id":id},function(response){
+
+    if(response.error){
+        swal("Error!",response.mensaje,"error");
+        $('#cedula').val(cedula_actual);
+        $('#cedula').focus();
+    }
+
     $("#cedula").val(response.cedula);
     cedula_actual =response.cedula;
     $("#nombre").val(response.nombre);
@@ -12,6 +19,7 @@ $.get("controller/pacientes/pacientes-back.php",{"oper":"get_paciente","id":id},
     
     $("#telefono").val(response.telefono);
     $("#correo").val(response.correo);
+    $("#tipo_sangre").val(response.tipo_sanguineo);
 },"json")
 
 $('#fecha-nacimiento').daterangepicker({
@@ -82,11 +90,13 @@ $("#boton-guardar").on('click',function(){
         let sexo = $('input:radio[name=sexo]:checked').val();
         let telefono = $("#telefono").val();
         let correo = $("#correo").val();
+        let tipo_sangre = $("#tipo_sangre").val();
         
         $.get('controller/pacientes/pacientes-back.php?oper=check_cedula_editar',{
             cedula: cedula,
             id: id,
         }, function(respuesta){
+            console.log(respuesta);
             if(respuesta == 1){
                 $.post("controller/pacientes/pacientes-back.php",{
                     "oper" : "editar_paciente",
@@ -97,6 +107,7 @@ $("#boton-guardar").on('click',function(){
                     "telefono": telefono,
                     "correo": correo,
                     "sexo": sexo,
+                    "tipo_sanguineo": tipo_sangre,
                 },function(response){
                     $("#overlay").hide();
 

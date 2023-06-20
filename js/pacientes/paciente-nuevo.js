@@ -42,6 +42,7 @@ $('#fecha-nacimiento').val("").trigger('change');
 
 // validación de cedula
 $('#cedula').blur(function(){
+  
     let cedula = $(this).val();  
     if(cedula != ''){  
         $.get("controller/pacientes/pacientes-back.php",{ 'oper' : 'buscarCedula','cedula' : cedula},
@@ -59,6 +60,7 @@ $('#cedula').blur(function(){
 // GUARDAR
 
 $("#boton-guardar").on('click',function(){
+    
     $("#overlay").show();
     if(mandatorio("div-paciente") == 1){
         let cedula = $("#cedula").val();
@@ -67,6 +69,8 @@ $("#boton-guardar").on('click',function(){
         let sexo = $('input:radio[name=sexo]:checked').val();     
         let telefono = $("#telefono").val();
         let correo = $("#correo").val();
+        let tipo_sangre = $("#tipo_sangre").val();
+
         $.get('controller/pacientes/pacientes-back.php?oper=check_cedula',{
             cedula: cedula,
         }, function(respuesta){
@@ -78,7 +82,8 @@ $("#boton-guardar").on('click',function(){
                     "fecha_nacimiento": fecha_nacimiento,
                     "telefono": telefono,
                     "correo": correo,
-                    "sexo": sexo
+                    "sexo": sexo,
+                    "tipo_sanguineo": tipo_sangre
                 },function(response){
                     $("#overlay").hide();
                     if(!response.error){
