@@ -131,7 +131,7 @@ insert  into `usuarios`(`id`,`usuario`,`nombre`,`clave`) values
 ALTER TABLE pacientes
 ADD tipo_sanguineo VARCHAR(10);
 
-/* ADD COLUMN *
+/* ADD COLUMN */
 ALTER TABLE pacientes ADD COLUMN editando BOOL DEFAULT FALSE;
 
 
